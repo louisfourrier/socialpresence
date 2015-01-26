@@ -106,8 +106,8 @@ Rails.application.configure do
   # Change the address of emails of the notifications of errors
   config.middleware.use ExceptionNotification::Rack,
   :email => {
-    :email_prefix => "Conjugueur Exceptions Notification",
-    :sender_address => %{"Conjugueur Server" <administration@conjugueur.com>},
+    :email_prefix => "SocialPresence Notification",
+    :sender_address => %{"SocialPresence Server" <administration@socialpresence.com>},
     :exception_recipients => %w{louis.fourrier@gmail.com}
   }
 

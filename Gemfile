@@ -36,6 +36,8 @@ gem "font-awesome-rails"
 # Gem for the pagination
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
+# New relic
+gem 'newrelic_rpm'
 # Gem for annotation of the model
 gem 'annotate'
 # For the pretty url
@@ -44,17 +46,16 @@ gem 'friendly_id', '>= 5.0.0'
 gem 'exception_notification'
 # For sitemap generation
 gem 'sitemap_generator'
-
+# For referencing twitter application
 gem 'omniauth-twitter'
-
+# For basic authentification of the users
 gem 'devise'
-
+# TO interpret Json on the server
 gem 'json'
-
+# To interact with Twitter easily
 gem 'twitter'
-
+# To send requests
 gem 'typhoeus'
-
 
 
 ## APPLICATION GEMS

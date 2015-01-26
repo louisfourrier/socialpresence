@@ -4,13 +4,17 @@
 <h2 class="page-header">Connected Services</h2>
 <% @services.each do |service| %>
 <div class="panel panel-default">
-  <div class="panel-heading"><b><%= link_to service.provider , service %></b></div>
+  <div class="panel-heading first-uppercase size-18"><b class=""><%= link_to service.provider , service %></b></div>
   <div class="panel-body">
     <b>Name: </b><%= service.name %> <br />
     <b>Uid: </b><%= service.uid %>
   </div>
 </div>
 
+<% end %>
+
+<% if @services.empty? %>
+<div class="alert alert-warning">No services connected yet</div>
 <% end %>
 
 <h2 class="page-header">Connect New Services</h2>
