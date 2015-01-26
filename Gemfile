@@ -47,6 +47,14 @@ gem 'sitemap_generator'
 
 gem 'omniauth-twitter'
 
+gem 'devise'
+
+gem 'json'
+
+gem 'twitter'
+
+gem 'typhoeus'
+
 
 
 ## APPLICATION GEMS

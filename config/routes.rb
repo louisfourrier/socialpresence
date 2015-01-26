@@ -1,7 +1,19 @@
 Rails.application.routes.draw do
+  
+  post 'api/newmessage'
+
+  resources :services, only: [:show, :edit, :update, :destro] do 
+    resources :messages
+  end
+
+  devise_for :users
+  resources :users, only: [:show, :edit, :destroy] do
+  end
 
   root to: 'home#main'
   get 'home/main'
+  get 'auth/twitter/callback' => 'sessions#create'
+  get 'sessions/create'
 
 # The priority is based upon order of creation: first created -> highest priority.
 # See how all your routes lay out with "rake routes".

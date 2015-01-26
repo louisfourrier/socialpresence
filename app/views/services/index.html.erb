@@ -1,0 +1,31 @@
+<h1 class="page-header text-center">Services</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Provider</th>
+			<th>Uid</th>
+			<th>Name</th>
+			<th>Total field</th>
+			<th>User</th>
+			<th colspan="3"></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @services.each do |service| %>
+		<tr>
+			<td><%= service.provider %></td>
+			<td><%= service.uid %></td>
+			<td><%= service.name %></td>
+			<td><%= service.total_field %></td>
+			<td><%= service.user %></td>
+			<td><%= link_to 'Show', service %></td>
+			<td><%= link_to 'Edit', edit_service_path(service) %></td>
+			<td><%= link_to 'Destroy', service, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<br>

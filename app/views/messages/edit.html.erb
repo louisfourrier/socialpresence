@@ -1,0 +1,6 @@
+<h1 class="page-header text-center">Editing Message</h1>
+
+<%= render 'form', message: @message %>
+
+<%= link_to 'Show', service_message_path(@service, @message), :class => "btn btn-warning" %> |
+<%= link_to 'Back', service_messages_path(@service), :class => "btn btn-info" %>

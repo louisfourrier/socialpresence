@@ -84,15 +84,16 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   
   
-  config.action_mailer.smtp_settings = {
-    address: "smtp.sendgrid.net",
-    port: 587,
-    domain: 'nadvence-beta.com',
-    authentication: "plain",
-    enable_starttls_auto: true,
-    user_name: Rails.application.secrets.email_provider_username,
-    password: Rails.application.secrets.email_provider_password
-  }
+  
+  ActionMailer::Base.smtp_settings = {
+  :address        => 'smtp.sendgrid.net',
+  :port           => '587',
+  :authentication => :plain,
+  :user_name      => ENV['SENDGRID_USERNAME'],
+  :password       => ENV['SENDGRID_PASSWORD'],
+  :domain         => 'heroku.com',
+  :enable_starttls_auto => true
+}
   
   
   # ActionMailer Config
@@ -105,9 +106,10 @@ Rails.application.configure do
   # Change the address of emails of the notifications of errors
   config.middleware.use ExceptionNotification::Rack,
   :email => {
-    :email_prefix => "Nadvence Exceptions Notification",
-    :sender_address => %{"Nadvence Server" <admin@rebble.it>},
-    :exception_recipients => %w{admin@rebble.it}
+    :email_prefix => "Conjugueur Exceptions Notification",
+    :sender_address => %{"Conjugueur Server" <administration@conjugueur.com>},
+    :exception_recipients => %w{louis.fourrier@gmail.com}
   }
+
 
 end

@@ -1,0 +1,39 @@
+<h1 class="page-header text-center">Service connecté: <span class="text text-info"><%= @service.full_name %></span> </h1>
+
+<p>
+	<strong>Social Network:</strong>
+	<%= @service.provider %>
+</p>
+
+<p>
+	<strong>Uid:</strong>
+	<%= @service.uid %>
+</p>
+
+<p>
+	<strong>Name of the account:</strong>
+	<%= @service.name %>
+</p>
+
+<p>
+	<strong>Account Token</strong>
+	<br />
+	Token :<%= @service.access_token %>
+	<br />
+	Secret: <%= @service.access_token_secret %>
+</p>
+<div class="alert alert-info">
+	<strong>SocialPresence Service Token: </strong> <%= @service.service_token %>
+</div>
+
+<h2 class="page-header text-center"> Last 5 Messages sent <%= link_to "All the messages", service_messages_path(@service), class: "btn btn-info btn-lg"%></h2>
+<% @messages.each do |message| %>
+<div><%= message.content%>
+	<p><%= link_to "Show", service_message_path(@service, message)%></p>
+</div>
+<hr />
+<% end %>
+
+
+<%= link_to 'Edit', edit_service_path(@service), :class => "btn btn-warning"  %> 
+<%= link_to 'Destroy', @service, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %>
