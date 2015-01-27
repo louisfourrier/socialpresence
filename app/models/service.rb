@@ -14,6 +14,8 @@
 #  access_token_secret :text
 #  service_token       :text
 #  tags                :text
+#  email_alert         :boolean          default(FALSE)
+#  automatic_follow    :boolean          default(TRUE)
 #
 class Service < ActiveRecord::Base
   ##-- Requirements and Concerns ---
@@ -48,14 +50,17 @@ class Service < ActiveRecord::Base
 
   ##-- Methods ---------------------
 
+  # Method that returns the human identification for the service
   def full_name
     return self.provider.to_s + " (" + self.name.to_s + ")"
   end
 
+  # Find or create the service
   def self.from_omniauth(auth, user)
     where(auth.slice("provider", "uid")).first || create_from_omniauth(auth, user)
   end
 
+  # Create the service from the Oauth returned hash
   def self.create_from_omniauth(auth, user)
     create! do |service|
       service.provider = auth["provider"]
@@ -66,22 +71,40 @@ class Service < ActiveRecord::Base
     end
   end
 
-  # Send Message
+  # Send Message through the service. Differentiate between the different provicer
   def send_message(message)
     if self.provider == "twitter"
-        content = message.content
-        url = message.url
-        tags = message.tags_array
-        sender = TwitterSender.new(self.access_token, self.access_token_secret)
-        sender.send_tweet(content, url, tags)
+      content = message.content.to_s
+      url = message.url.to_s
+      tags = message.tags_array
+      person = message.person.to_s
+      sender = TwitterSender.new(self.access_token, self.access_token_secret)
+    success = sender.send_tweet(content, url, tags, person)
     end
+
+    if self.email_alert
+    self.send_message_mail_to_user(message)
+    end
+
+    return success
   end
 
   # Test message
   def send_test
     if self.provider == "twitter"
       sender = TwitterSender.new(self.access_token, self.access_token_secret)
-    sender.test
+    sender.test_tweet
+    end
+  end
+
+  # Test to follow topics
+  def follow_relevant_people
+    if !tags.to_s.empty? && self.automatic_follow
+      if self.provider == "twitter"
+        tags_array = self.tags.split(',')
+        sender = TwitterSender.new(self.access_token, self.access_token_secret)
+        sender.follow_tweet_sender(tags_array)
+      end
     end
   end
 
@@ -115,6 +138,11 @@ class Service < ActiveRecord::Base
       access_token_secret = self.properties['credentials']['secret']
       self.update_columns(access_token: access_token,access_token_secret: access_token_secret )
     end
+  end
+
+  # Mail to the user to confirm the sending of the message
+  def send_message_mail_to_user(message)
+    MessageMailer.new_message(self.user, message).deliver
   end
 
 end

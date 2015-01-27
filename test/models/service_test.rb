@@ -14,6 +14,8 @@
 #  access_token_secret :text
 #  service_token       :text
 #  tags                :text
+#  email_alert         :boolean          default(FALSE)
+#  automatic_follow    :boolean          default(TRUE)
 #
 
 require 'test_helper'

@@ -1,6 +1,9 @@
-<h1 class="page-header text-center">Editing Service</h1>
+<div class="col-md-12">
+	<h1 class="page-header text-center">Service Configuration <%= link_to @service.full_name, @service%></h1>
 
-<%= render 'form', service: @service %>
+	<%= render 'form', service: @service %>
 
-<%= link_to 'Show', @service, :class => "btn btn-warning" %> |
-<%= link_to 'Back', services_path, :class => "btn btn-info" %>
+	<hr />
+
+	<%= link_to 'Back to service page', @service, :class => "btn btn-warning" %>
+</div>

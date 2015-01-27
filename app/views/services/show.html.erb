@@ -1,39 +1,58 @@
-<h1 class="page-header text-center">Service connecté: <span class="text text-info"><%= @service.full_name %></span> </h1>
+<div class="col-md-12">
+	<h1 class="page-header text-center">Service connecté: <span class="text text-info"><%= @service.full_name %></span></h1>
 
-<p>
-	<strong>Social Network:</strong>
-	<%= @service.provider %>
-</p>
+	<div class="col-md-6 col-sm-12">
+		<h2 class="page-header">Description</h2>
+		<p>
+			<strong>Social Network:</strong>
+			<%= @service.provider %>
+		</p>
 
-<p>
-	<strong>Uid:</strong>
-	<%= @service.uid %>
-</p>
+		<p>
+			<strong>Uid:</strong>
+			<%= @service.uid %>
+		</p>
 
-<p>
-	<strong>Name of the account:</strong>
-	<%= @service.name %>
-</p>
+		<p>
+			<strong>Name of the account:</strong>
+			<%= @service.name %>
+		</p>
 
-<p>
-	<strong>Account Token</strong>
-	<br />
-	Token :<%= @service.access_token %>
-	<br />
-	Secret: <%= @service.access_token_secret %>
-</p>
-<div class="alert alert-info">
-	<strong>SocialPresence Service Token: </strong> <%= @service.service_token %>
+		<p>
+			<strong>Account Token</strong>
+			<br />
+			Token :<%= @service.access_token %>
+			<br />
+			Secret: <%= @service.access_token_secret %>
+		</p>
+		<div class="alert alert-info">
+			<strong>SocialPresence Service Token: </strong> <%= @service.service_token %>
+		</div>
+	</div>
+	<div class="col-md-6 col-sm-12">
+		<h2 class="page-header">Configuration</h2>
+		<p>
+			<strong>Email alert after message sent : </strong> <%= @service.email_alert%>
+		</p>
+		<p>
+			<strong>Automatic Follow : </strong> <%= @service.automatic_follow%>
+		</p>
+		<p>
+			<strong>Tags to follow for this service :</strong>
+			<%= @service.tags %>
+			<% if @service.tags.to_s.empty?%>
+			NO TAGS ENTERED
+			<%end %>
+		</p>
+
+		<%= link_to 'Configure', edit_service_path(@service), :class => "btn btn-warning"  %>
+		<%= link_to 'Destroy the service', @service, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %>
+	</div>
+
+	<div class="col-md-12 col-sm-12">
+		<h2 class="page-header text-center"> Last 5 Messages sent <%= link_to "All the messages", service_messages_path(@service), class: "btn btn-info btn-lg"%></h2>
+		<% @messages.each do |message| %>
+		<%= render partial: "messages/message", locals:{message:message}%>
+		<% end %>
+	</div>
 </div>
-
-<h2 class="page-header text-center"> Last 5 Messages sent <%= link_to "All the messages", service_messages_path(@service), class: "btn btn-info btn-lg"%></h2>
-<% @messages.each do |message| %>
-<div><%= message.content%>
-	<p><%= link_to "Show", service_message_path(@service, message)%></p>
-</div>
-<hr />
-<% end %>
-
-
-<%= link_to 'Edit', edit_service_path(@service), :class => "btn btn-warning"  %> 
-<%= link_to 'Destroy', @service, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %>

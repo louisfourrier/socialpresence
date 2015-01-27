@@ -14,6 +14,7 @@
 #  has_been_sent :boolean          default(FALSE)
 #  from_api      :boolean          default(FALSE)
 #  sent_time     :datetime
+#  person        :string(255)
 #
 
 require 'test_helper'

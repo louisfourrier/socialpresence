@@ -19,21 +19,55 @@ class TwitterSender
     @access_token_secret = access_token_secret
     @client = TwitterSender.client(access_token, access_token_secret)
   end
-  
+
   def client
     return @client
   end
 
   # Method accessible from the outside
-  def send_tweet(message, url, tags)
-    tweet = TwitterSender.convert_message_in_tweet(message, url, tags)
+  def send_tweet(message, url, tags, person = "")
+    tweet = TwitterSender.convert_message_in_tweet(message, url, tags, person)
+    self.sender(tweet)
+    return true
+  end
+
+  # Test Method for sending a message
+  def test_tweet
+    tweet = TwitterSender.convert_message_in_tweet("Bonjour le test", "http://les-conjugaisons.com", ["test", "louis"])
     self.sender(tweet)
   end
 
-  # Test Method
-  def test
-    tweet = TwitterSender.convert_message_in_tweet("Bonjour le test", "http://les-conjugaisons.com", ["test", "louis"])
-    self.sender(tweet)
+  # test of search tweets
+  def test_topics
+    tags = ["conjugaison", "grammaire"]
+    search = TwitterSender.convert_tags_in_search(tags)
+    to_follow = []
+    puts search.to_s
+    self.client.search(search, :result_type => "recent", :lang => "fr").take(10).collect do |tweet|
+      puts "#{tweet.user.screen_name}: #{tweet.text}"
+      to_follow << tweet.user.screen_name
+    end
+    self.follow_people(to_follow)
+  end
+
+  # Follow sender of interesting tweets
+  def follow_tweet_sender(tags)
+    search = TwitterSender.convert_tags_in_search(tags)
+    to_follow = []
+    puts search.to_s
+    self.client.search(search, :result_type => "recent", :lang => "fr").take(10).collect do |tweet|
+      puts "#{tweet.user.screen_name}: #{tweet.text}"
+      to_follow << tweet.user.screen_name
+    end
+    self.follow_people(to_follow)
+  end
+
+  # Follow array of screen names
+  def follow_people(users)
+    client = self.client
+    users.each do |user|
+      client.follow(user)
+    end
   end
 
   # Methods that send the tweet
@@ -55,8 +89,19 @@ class TwitterSender
     return client
   end
 
+  def self.convert_tags_in_search(tags)
+    search = ""
+    search_tags = []
+    tags.each do |tag|
+      search_tags << "#" + tag.strip.downcase.to_s
+    end
+    search = search_tags.join(' OR ')
+    search = search + " -rt"
+    return search
+  end
+
   # Convert the message in the twitter form
-  def self.convert_message_in_tweet(message, url, tags)
+  def self.convert_message_in_tweet(message, url, tags, person = "")
     message= message.to_s
     url = url.to_s
     tags_array = []
@@ -64,9 +109,11 @@ class TwitterSender
       s = "#" + t.to_s.strip
       tags_array << s
     end
-
     tags_string = tags_array.join(' ')
-    tweet = message + " " + url + " " + tags_string
+    if !person.to_s.empty?
+      person = " @" + person.to_s
+    end
+    tweet = message + " " + url + " " + tags_string + person
     return tweet
   end
 

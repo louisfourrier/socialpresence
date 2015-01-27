@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+	<div class="panel-heading first-uppercase size-18">
+		<b class="">Received Date : <%= link_to message.created_at, service_message_path(message.service, message) %></b>
+	</div>
+	<div class="panel-body">
+		<b>Service : </b><%= message.service.name %>
+		<br />
+		<b>Content: </b><%= message.content %>
+		<br/>
+		<strong>Sent ? </strong>
+		<% if message.has_been_sent %>
+		<span class="text text-success"><i class="fa fa-check-square"></i></span>
+		<% else %>
+		<span class="text text-danger"><i class="fa fa-close"></i></span>
+		<% end %>
+
+	</div>
+</div>

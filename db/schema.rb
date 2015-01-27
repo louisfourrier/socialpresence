@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150122163532) do
+ActiveRecord::Schema.define(version: 20150127165916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20150122163532) do
     t.boolean  "has_been_sent", default: false
     t.boolean  "from_api",      default: false
     t.datetime "sent_time"
+    t.string   "person"
   end
 
   add_index "messages", ["service_id"], name: "index_messages_on_service_id", using: :btree
@@ -44,6 +45,8 @@ ActiveRecord::Schema.define(version: 20150122163532) do
     t.text     "access_token_secret"
     t.text     "service_token"
     t.text     "tags"
+    t.boolean  "email_alert",         default: false
+    t.boolean  "automatic_follow",    default: true
   end
 
   add_index "services", ["service_token"], name: "index_services_on_service_token", using: :btree

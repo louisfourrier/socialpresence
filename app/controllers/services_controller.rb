@@ -31,6 +31,6 @@ class ServicesController < ApplicationController
   end
 
   def service_params
-    params.require(:service).permit(:provider, :uid, :name, :total_field)
+    params.require(:service).permit(:name, :tags, :automatic_follow, :email_alert)
   end
 end
