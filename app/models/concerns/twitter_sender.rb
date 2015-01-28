@@ -113,7 +113,7 @@ class TwitterSender
     url = url.to_s
     tags_array = []
     tags.each do |t|
-      s = "#" + t.to_s.strip
+      s = "#" + t.to_s.strip.downcase.to_s.gsub(' ', '')
       tags_array << s
     end
     tags_string = tags_array.join(' ')
