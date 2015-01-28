@@ -74,11 +74,11 @@ class Service < ActiveRecord::Base
   # Send Message through the service. Differentiate between the different provicer
   def send_message(message)
     if self.provider == "twitter"
-      content = message.content.to_s
-      url = message.url.to_s
-      tags = message.tags_array
-      person = message.person.to_s
-      sender = TwitterSender.new(self.access_token, self.access_token_secret)
+    content = message.content.to_s
+    url = message.url.to_s
+    tags = message.tags_array
+    person = message.person.to_s
+    sender = self.service_api
     success = sender.send_tweet(content, url, tags, person)
     end
 
@@ -102,9 +102,15 @@ class Service < ActiveRecord::Base
     if !tags.to_s.empty? && self.automatic_follow
       if self.provider == "twitter"
         tags_array = self.tags.split(',')
-        sender = TwitterSender.new(self.access_token, self.access_token_secret)
-        sender.follow_tweet_sender(tags_array)
+      sender = self.service_api
+      sender.follow_tweet_sender(tags_array)
       end
+    end
+  end
+
+  def service_api
+    if self.provider == "twitter"
+      return TwitterSender.new(self.access_token, self.access_token_secret)
     end
   end
 

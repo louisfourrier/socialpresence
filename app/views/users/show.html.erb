@@ -1,21 +1,24 @@
-<h1 class="page-header text-center">Show User <%= @user.email %></h1>
+<div class="col-md-12">
+	<h1 class="page-header text-center">Show User <%= @user.email %></h1>
 
+	<h2 class="page-header">Connected Services</h2>
+	<% @services.each do |service| %>
+	<%= render partial: 'services/service', locals:{service: service} %>
+	<% end %>
 
-<h2 class="page-header">Connected Services</h2>
-<% @services.each do |service| %>
-<%= render partial: 'services/service', locals:{service: service} %>
-<% end %>
+	<% if @services.empty? %>
+	<div class="alert alert-warning">
+		No services connected yet
+	</div>
+	<% end %>
 
-<% if @services.empty? %>
-<div class="alert alert-warning">No services connected yet</div>
-<% end %>
+	<h2 class="page-header">Connect New Services</h2>
+	<div id="user_nav">
+		<%= link_to "Connect Twitter account", "/auth/twitter", class: "btn btn-info btn-lg"%>
+	</div>
 
-<h2 class="page-header">Connect New Services</h2>
-<div id="user_nav">
-  <%= link_to "Connect Twitter", "/auth/twitter", class: "btn btn-info btn-lg"%>
+	<h2 class="page-header">Settings</h2>
+
+	<%= link_to 'Edit profile', edit_user_registration_path, class: "btn btn-warning" %> |
+	<%= link_to "Logout", destroy_user_session_path, method: :delete, :class => "btn btn-danger" %>
 </div>
-
-<h2 class="page-header">Settings</h2>
-
-<%= link_to 'Edit profile', edit_user_registration_path, class: "btn btn-warning" %> |
-<%= link_to "Logout", destroy_user_session_path, method: :delete, :class => "btn btn-danger" %>

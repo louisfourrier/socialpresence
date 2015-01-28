@@ -1,55 +1,54 @@
-<h1 class="page-header text-center">Message</h1>
+<div class="col-md-12">
+	<h1 class="page-header text-center">Message</h1>
 
-<p>
-	<strong>Service:</strong>
-	<%= link_to @message.service.full_name, @message.service %>
-</p>
+	<p>
+		<strong>Service:</strong>
+		<%= link_to @message.service.full_name, @message.service %>
+	</p>
 
-<p>
-	<strong>Service token:</strong>
-	<%= @message.service_token %>
-</p>
+	<p>
+		<strong>Service token:</strong>
+		<%= @message.service_token %>
+	</p>
 
+	<p>
+		<strong>Recu le:</strong>
+		<%= @message.created_at %>
+	</p>
 
-<p>
-	<strong>Recu le:</strong>
-	<%= @message.created_at %>
-</p>
+	<p>
+		<strong>Content:</strong>
+		<%= @message.content %>
+	</p>
 
+	<p>
+		<strong>Url:</strong>
+		<%= @message.url %>
+	</p>
 
-<p>
-	<strong>Content:</strong>
-	<%= @message.content %>
-</p>
+	<p>
+		<strong>From url:</strong>
+		<%= @message.from_url %>
+	</p>
 
-<p>
-	<strong>Url:</strong>
-	<%= @message.url %>
-</p>
+	<p>
+		<strong>Tags:</strong>
+		<%= @message.tags %>
+	</p>
 
-<p>
-	<strong>From url:</strong>
-	<%= @message.from_url %>
-</p>
+	<p>
+		<strong>Person:</strong>
+		<%= @message.person %>
+	</p>
 
-<p>
-	<strong>Tags:</strong>
-	<%= @message.tags %>
-</p>
+	<p>
+		<strong>Envoyé ? :</strong> <%= @message.has_been_sent %>
+		<% if @message.has_been_sent %>
+		<br />
+		<strong>Date d'envoi :</strong> <%= @message.sent_time %>
+		<% end%>
+	</p>
 
-<p>
-	<strong>Person:</strong>
-	<%= @message.person %>
-</p>
-
-
-
-<p> <strong>Envoyé ? :</strong> <%= @message.has_been_sent %>
-	<% if @message.has_been_sent %>
-	<br />
-	<strong>Date d'envoi :</strong> <%= @message.sent_time %>
-	<% end%>
-</p>
-
-<%= link_to 'Edit', edit_service_message_path(@service, @message), :class => "btn btn-warning"  %> |
-<%= link_to 'Back', service_messages_path(@service), :class => "btn btn-primary"  %>
+	<%= link_to 'Edit', edit_service_message_path(@service, @message), :class => "btn btn-warning"  %> |
+	<%= link_to 'Back', service_messages_path(@service), :class => "btn btn-primary"  %>
+</div>

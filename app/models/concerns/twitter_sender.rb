@@ -19,7 +19,8 @@ class TwitterSender
     @access_token_secret = access_token_secret
     @client = TwitterSender.client(access_token, access_token_secret)
   end
-
+  
+  # REturn the client to call twitter methods
   def client
     return @client
   end
@@ -30,35 +31,22 @@ class TwitterSender
     self.sender(tweet)
     return true
   end
-
-  # Test Method for sending a message
-  def test_tweet
-    tweet = TwitterSender.convert_message_in_tweet("Bonjour le test", "http://les-conjugaisons.com", ["test", "louis"])
-    self.sender(tweet)
-  end
-
-  # test of search tweets
-  def test_topics
-    tags = ["conjugaison", "grammaire"]
+  
+  # Return array of tweets. Tags in an array of string
+  def search_tweets(tags)
     search = TwitterSender.convert_tags_in_search(tags)
-    to_follow = []
-    puts search.to_s
+    tweets = []
     self.client.search(search, :result_type => "recent", :lang => "fr").take(10).collect do |tweet|
       puts "#{tweet.user.screen_name}: #{tweet.text}"
-      to_follow << tweet.user.screen_name
+      tweets << tweet
     end
-    self.follow_people(to_follow)
+    return tweets
   end
 
-  # Follow sender of interesting tweets
+  # Follow sender of interesting tweets. Tags is an array of keyword
   def follow_tweet_sender(tags)
-    search = TwitterSender.convert_tags_in_search(tags)
-    to_follow = []
-    puts search.to_s
-    self.client.search(search, :result_type => "recent", :lang => "fr").take(10).collect do |tweet|
-      puts "#{tweet.user.screen_name}: #{tweet.text}"
-      to_follow << tweet.user.screen_name
-    end
+    tweets = self.search_tweets(tags)
+    to_follow = tweets.map{|t| t.user.screen_name}
     self.follow_people(to_follow)
   end
 
@@ -74,6 +62,25 @@ class TwitterSender
   def sender(tweet)
     client = self.client
     client.update(tweet)
+  end
+  
+   # Test Method for sending a message
+  def test_tweet
+    tweet = TwitterSender.convert_message_in_tweet("Bonjour le test", "http://les-conjugaisons.com", ["test", "louis"], "nadvence")
+    self.sender(tweet)
+  end
+
+  # test of search tweets
+  def test_topics
+    tags = ["conjugaison", "grammaire"]
+    search = TwitterSender.convert_tags_in_search(tags)
+    to_follow = []
+    puts search.to_s
+    self.client.search(search, :result_type => "recent", :lang => "fr").take(10).collect do |tweet|
+      puts "#{tweet.user.screen_name}: #{tweet.text}"
+      to_follow << tweet.user.screen_name
+    end
+    self.follow_people(to_follow)
   end
 
   private
