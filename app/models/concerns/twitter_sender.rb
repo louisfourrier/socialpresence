@@ -100,7 +100,7 @@ class TwitterSender
     search = ""
     search_tags = []
     tags.each do |tag|
-      search_tags << "#" + tag.strip.downcase.to_s
+      search_tags << "#" + tag.strip.downcase.to_s.gsub(' ', '')
     end
     search = search_tags.join(' OR ')
     search = search + " -rt"
