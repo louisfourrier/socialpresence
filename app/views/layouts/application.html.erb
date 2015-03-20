@@ -7,9 +7,9 @@
 		<%= csrf_meta_tags %>
 	</head>
 	<body>
-		
+
 		<%= render partial: 'layouts/navbar' %>
-		
+
 		<div class="container-fluid main-container">
 			<div class="row">
 				<div class="col-md-12">
@@ -20,13 +20,13 @@
 							<strong><%= value %></strong>
 						</div>
 						<% end %>
-						
+
+						<%= yield %>
 					</div>
-					<%= yield %>
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="modal fade" id="layout-modal">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -45,10 +45,8 @@
 				</div>
 			</div>
 		</div>
-		
-		
-		
+
 		<%= render partial: 'layouts/end_scripts' %>
-		
+
 	</body>
 </html>

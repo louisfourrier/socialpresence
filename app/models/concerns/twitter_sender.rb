@@ -121,6 +121,9 @@ class TwitterSender
       person = " @" + person.to_s
     end
     tweet = message + " " + url + " " + tags_string + person
+    if tweet.size > 140
+      tweet = url + " " + tags_string + person
+    end
     return tweet
   end
 

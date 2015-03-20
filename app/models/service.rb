@@ -83,7 +83,7 @@ class Service < ActiveRecord::Base
     end
 
     if self.email_alert
-    self.send_message_mail_to_user(message)
+      self.send_message_mail_to_user(message)
     end
 
     return success
